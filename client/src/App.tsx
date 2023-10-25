@@ -4,30 +4,36 @@ import {TextField} from '@mui/material'
 import './App.css'
 import Rule from './Components/Rule'
 import { IRule } from './constants/types'
-import { allRules } from './constants/global'
+import { allRules, sortHelper } from './constants/global'
 function App() {
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [rules, setRules] = useState<IRule[]>(allRules)
   const validation = (password:string)=>{
+    const first: IRule|undefined = rules.find(el=>el.id===0)
+    first? first.shown = true : null
     setPassword(password)
-    for (let rule of rules.sort((a,b )=> a.id-b.id)){
-      rule.shown=true
-      if (!rule.validation(password, rule)){
-        rule.status = 'error'
-        setError(true)
-        setRules(rules)
-        return 
+    let rulesBuffer = rules.sort((a,b )=> a.id-b.id)
+    for (let i=0; i<rulesBuffer.length; i++){
+      if (!rulesBuffer[i].validation(password, rulesBuffer[i])){
+        rulesBuffer[i].status = 'error'
       } else {
-        setError(false)
-        rule.status = 'success'
-        setRules([...rules])
+        rulesBuffer[i].status = 'success'
+      }
+      setRules(rulesBuffer)
+      const allDone = !rulesBuffer.filter(el=>el.shown).map((el, index)=>el.validation(password, rulesBuffer[index])).includes(false)
+      if (rulesBuffer[i+1] && allDone){
+        rulesBuffer[i+1].shown=true
+      }
+      if (!rulesBuffer[i+1]?.shown){
+        return
       }
     }
   }
   return (
  <>
  <TextField
+ sx={{ width: 600, margin:'1em' }}
  error={error}
  fullWidth 
  id="fullWidth" 
@@ -36,8 +42,11 @@ function App() {
     validation(event.target.value);
   }}
   />
-  {rules.filter(el=>el.status==='error' && el.shown===true).map((el:IRule)=> <Rule {...el}  key={el.id}></Rule>)}
-  {rules.sort((a, b)=> b.id - a.id).filter(el=>el.status==='success'  && el.shown===true).map((el:IRule)=> <Rule {...el} key={el.id}></Rule>)}
+  {/* {rules.filter(el=>el?.status==='error' && el?.shown===true)
+  .map((el:IRule)=> <Rule rule={el} setRules={setRules}  key={el.id}></Rule>)} */}
+  {sortHelper(rules)
+  .filter(el=> el?.shown===true)
+  .map((el:IRule)=> <Rule rule={el} setRules={setRules} key={el.id}></Rule>)}
  </>
   )
 }
