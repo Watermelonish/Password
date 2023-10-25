@@ -1,11 +1,12 @@
 import { IRule } from "./types";
-import { generate, count } from "random-words";
+import { generate } from "random-words";
+import { Moon } from "lunarphase-js";
 
 export const validate1  = (string:string)=>{
     return string.length >=6
 }
 export const validate2 = (string: string)=>{
-    return /\d/.test(string);
+    return /\d+/g.test(string);
 
 }
 export const validate3 = (string: string)=>{
@@ -23,8 +24,19 @@ export const validate5 = (string: string)=>{
 
 }
 export const validate6 = (string: string, rule: IRule)=> {
-    console.log(rule)
     return string.includes(rule?.qr||'')
+}
+export const validate7 = (string: string) => {
+    const phase = Moon.lunarPhaseEmoji()	
+    return string.includes(phase)
+}
+export const validate8 = (string: string, rule: IRule) => {
+    console.log(rule, string)
+    return string.includes(rule?.capcha||'')
+}
+export const validate9 = (string: string, rule: IRule) => {
+    console.log(rule, string)
+    return string === rule.capcha
 }
 export const allRules: IRule[] = [
     {
@@ -67,13 +79,48 @@ export const allRules: IRule[] = [
         shown: false,
         validation: validate5,
     },
+    // {
+    //     id: 5,
+    //     header: 'Rule 6',
+    //     text: 'Your password must include text behind this capture',
+    //     status: 'notShown',
+    //     shown: false,
+    //     qr: generate({min: 2, max:4 }).map(el=>el[0].toUpperCase() + el.slice(1)).join(''),
+    //     validation: validate6,
+    // },
     {
-        id: 5,
-        header: 'Rule 6',
-        text: 'Your password must include text behind this capture',
+        id: 6,
+        header: 'Rule 7',
+    text: 'Your password must include an emojy of a moon in the current phase in Northern Hemisphere',
+    status: 'notShown',
+    shown: false,
+    validation: validate7,
+    },
+    {
+        id: 7,
+        header: 'Rule 8',
+    text: 'Your password must include content of the capcha',
+    status: 'notShown',
+    shown: false,
+    capcha: 'string',
+    validation: validate8,
+    },
+    {
+        id: 8,
+        header: 'Rule 9',
+        text: 'Your password must include dddd',
         status: 'notShown',
         shown: false,
-        qr: generate({min: 2, max:4 }).map(el=>el[0].toUpperCase() + el.slice(1)).join(''),
-        validation: validate6,
+        validation: validate9,
     }
   ]
+
+
+ export const sortHelper = (array:IRule[])=> {
+    const firstArr: IRule[] = []
+    const secondArr: IRule[] = []
+    array.forEach((el:IRule)=>{
+        el.status === 'error'? firstArr.push(el): secondArr.push(el)
+    })
+    return firstArr.sort((a, b)=> a.id - b.id).concat(secondArr.sort((a, b)=> b.id - a.id))
+  }

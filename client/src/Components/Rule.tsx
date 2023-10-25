@@ -2,12 +2,22 @@ import { Card, CardContent, CardHeader, Typography } from "@mui/material"
 import { IRule } from "../constants/types"
 import { red, green } from '@mui/material/colors';
 import QRCode from "react-qr-code";
-function Rule(rule:IRule) {
-    const {header, text, status, qr} = rule
+import RCG from 'react-captcha-generator';
+interface Iprops {
+  rule: IRule,
+  setRules: any
+}
+const Rule = function Rule(props: Iprops) {
+    const {header, text, status, qr, capcha} = props.rule
+    const setRules = props.setRules
+    const result = (capchaText:string)=> {
+      console.log(capchaText)
+      setRules((prevState:IRule[])=>([...prevState.map(el=>el?.capcha? {...el, capcha:capchaText}:el)]))
+    }
     return (
    <>
-   <Card sx={{ maxWidth: 345 }} style={{backgroundColor: status==='error'?red[100]:green[100], borderColor: status==='error'?red[900]:green[900]}}>
-    <CardHeader subheader={header} style={{backgroundColor: status==='error'?red[200]:green[200]}}>
+   <Card sx={{ width: 800, margin:'1em' }} style={{backgroundColor: status==='error'?red[50]:green[50], borderColor: status==='error'?red[900]:green[900]}}>
+    <CardHeader subheader={header} style={{backgroundColor: status==='error'?red[100]:green[100]}}>
     </CardHeader>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -20,6 +30,11 @@ function Rule(rule:IRule) {
     :
     null
 }
+{capcha? 
+<RCG
+    result={result} // Callback function with code
+  />
+  :null} 
       </CardContent>
     </Card>
    </>

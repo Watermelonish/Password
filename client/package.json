@@ -13,8 +13,10 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.14",
+    "lunarphase-js": "^2.0.1",
     "random-words": "^2.0.0",
     "react": "^18.2.0",
+    "react-captcha-generator": "^1.6.3",
     "react-dom": "^18.2.0",
     "react-qr-code": "^2.0.12"
   },

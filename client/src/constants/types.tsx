@@ -5,5 +5,6 @@ export interface IRule {
     status: string,
     shown: boolean,
     validation: Function,
-    qr?: string
+    qr?: string,
+    capcha?: string,
 }
