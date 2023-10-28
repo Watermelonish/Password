@@ -5,10 +5,17 @@ import './App.css'
 import Rule from './Components/Rule'
 import { IRule } from './constants/types'
 import { allRules, sortHelper } from './constants/global'
+import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import Slide from '@mui/material/Slide'
+import * as React from 'react'
 function App() {
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [rules, setRules] = useState<IRule[]>(allRules)
+  const containerRef = React.useRef<HTMLElement>(null);
+
   const validation = (password:string)=>{
     const first: IRule|undefined = rules.find(el=>el.id===0)
     first? first.shown = true : null
@@ -42,11 +49,18 @@ function App() {
     validation(event.target.value);
   }}
   />
-  {/* {rules.filter(el=>el?.status==='error' && el?.shown===true)
-  .map((el:IRule)=> <Rule rule={el} setRules={setRules}  key={el.id}></Rule>)} */}
+  <Box ref={containerRef}>
+  <TransitionGroup >
   {sortHelper(rules)
   .filter(el=> el?.shown===true)
-  .map((el:IRule)=> <Rule rule={el} setRules={setRules} key={el.id}></Rule>)}
+  .map((el:IRule)=> 
+  <Slide key={el.id} in={el.status==='error'}  container={containerRef.current} mountOnEnter unmountOnExit>
+    <Box>
+    <Rule rule={el} setRules={setRules}></Rule>
+    </Box>
+    </Slide>)}
+ </TransitionGroup>
+ </Box>
  </>
   )
 }
