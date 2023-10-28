@@ -3,6 +3,8 @@ import { IRule } from "../constants/types"
 import { red, green } from '@mui/material/colors';
 import QRCode from "react-qr-code";
 import RCG from 'react-captcha-generator';
+import {JigsawPuzzle} from "react-jigsaw-puzzle/lib";
+import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 interface Iprops {
   rule: IRule,
   setRules: any
@@ -26,6 +28,7 @@ const Rule = function Rule(props: Iprops) {
         {qr? 
         <div style={{ background: 'white', padding: '16px' }}>
            <QRCode value={qr|| ''}/>
+           <JigsawPuzzle imageSrc="vite.svg" />
     </div>
     :
     null
@@ -34,7 +37,8 @@ const Rule = function Rule(props: Iprops) {
 <RCG
     result={result} // Callback function with code
   />
-  :null} 
+  :null
+  } 
       </CardContent>
     </Card>
    </>
