@@ -1,0 +1,15 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+Сard {
+  padding: 2em;
+  margin: 2em;
+}
+
+#panoramamap {
+  height: 100px;
+}
