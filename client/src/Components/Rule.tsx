@@ -10,7 +10,7 @@ interface Iprops {
   setRules: any
 }
 const Rule = function Rule(props: Iprops) {
-    const {header, text, status, qr, capcha} = props.rule
+    const {header, text, status, qr, capcha, jigsawPuzzle, panorama} = props.rule
     const setRules = props.setRules
     const result = (capchaText:string)=> {
       console.log(capchaText)
@@ -28,7 +28,6 @@ const Rule = function Rule(props: Iprops) {
         {qr? 
         <div style={{ background: 'white', padding: '16px' }}>
            <QRCode value={qr|| ''}/>
-           <JigsawPuzzle imageSrc="vite.svg" />
     </div>
     :
     null
@@ -39,6 +38,9 @@ const Rule = function Rule(props: Iprops) {
   />
   :null
   } 
+  { jigsawPuzzle? <JigsawPuzzle imageSrc="parallel.jpg" />:null}
+  { panorama? <JigsawPuzzle imageSrc="parallel.jpg" />:null}
+  <div style={{position:'relative',overflow:'hidden'}}><a href="https://yandex.ru/maps/43/kazan/?utm_medium=mapframe&utm_source=maps" style={{color:'#eee',fontSize:'12px',position:'absolute',top:'0px'}}></a><a href="https://yandex.ru/maps/43/kazan/?l=stv%2Csta&ll=49.253873%2C55.747215&mode=search&panorama%5Bdirection%5D=341.199175%2C-9.689073&panorama%5Bfull%5D=true&panorama%5Bpoint%5D=49.075270%2C55.837786&panorama%5Bspan%5D=120.096961%2C60.000000&sll=49.197296%2C55.750589&text=55.750589%2C49.197296&utm_medium=mapframe&utm_source=maps&z=10.94" style={{color:'#eee', fontSize:'12px', position:'absolute', top:'14px'}}>Офис — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?l=stv%2Csta&ll=49.253873%2C55.747215&mode=search&panorama%5Bdirection%5D=341.199175%2C-9.689073&panorama%5Bfull%5D=true&panorama%5Bpoint%5D=49.075270%2C55.837786&panorama%5Bspan%5D=120.096961%2C60.000000&sll=49.197296%2C55.750589&text=55.750589%2C49.197296&z=10.94" style={{width:"560", height:"400", position:'relative'}}></iframe></div>
       </CardContent>
     </Card>
    </>
