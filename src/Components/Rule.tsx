@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, Typography } from "@mui/material"
 import { IRule } from "../constants/types"
 import { red, green } from '@mui/material/colors';
 import QRCode from "react-qr-code";
+// @ts-ignore
 import RCG from 'react-captcha-generator';
 import {JigsawPuzzle} from "react-jigsaw-puzzle/lib";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";

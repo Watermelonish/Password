@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import {TextField} from '@mui/material'
 import './App.css'
@@ -8,14 +8,11 @@ import { allRules, sortHelper } from './constants/global'
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
-import Slide from '@mui/material/Slide'
-import Zoom from '@mui/material/Zoom'
 import * as React from 'react'
 
 function App() {
 
   const [password, setPassword] = useState<string>('')
-  const [error, setError] = useState<boolean>(false)
   const [rules, setRules] = useState<IRule[]>(allRules)
   const containerRef = React.useRef<HTMLElement>(null);
   const validation = (password:string)=>{
@@ -45,7 +42,6 @@ function App() {
  <>
  <TextField
  sx={{ width: 600, margin:'1em' }}
- error={error}
  fullWidth 
  id="fullWidth" 
  value={password} 
