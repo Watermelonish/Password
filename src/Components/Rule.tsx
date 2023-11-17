@@ -11,7 +11,7 @@ interface Iprops {
   setRules: any
 }
 const Rule = function Rule(props: Iprops) {
-    const {header, text, status, qr, capcha, jigsawPuzzle, panorama} = props.rule
+    const {header, text, status, qr, capcha, jigsawPuzzle} = props.rule
     const setRules = props.setRules
     const result = (capchaText:string)=> {
       console.log(capchaText)
